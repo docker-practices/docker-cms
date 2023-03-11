@@ -14,8 +14,7 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.idea/php.xml
-build
-docker-compose.yml
+/build
 /public/assets/admin/images
 /public/images
 /public/photos
