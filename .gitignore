@@ -21,7 +21,6 @@ yarn-error.log
 /ref
 /refs
 /build/mysql/dumps
-docker-compose.yml
 /mysqldata
 
 *.DS_Store

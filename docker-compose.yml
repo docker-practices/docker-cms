@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+    # The Laravel Application
+    laravelappcms:
+        container_name: laravelcms_app
+        build: ./docker_build
+        volumes:
+            - .:/var/www/html
+        links:
+            - laravelmyqlcms
+        ports:
+            - 1030:80
+        depends_on:
+            - "laravelmyqlcms"
+        restart: always 
+        environment:
+            - "DB_PORT=3306"
+            - "DB_HOST=laravelmyqlcms"
+
+    # The Database
+    laravelmyqlcms:
+        container_name: laravelcms_mysql
+        image: mysql:5.7
+        restart: always 
+        volumes:
+            - "./db:/docker-entrypoint-initdb.d"
+            - "./dbdata:/var/lib/mysql"
+        environment:
+            - "MYSQL_DATABASE=usermanagement"
+            - "MYSQL_USER=admin"
+            - "MYSQL_PASSWORD=secret"
+            - "MYSQL_ROOT_PASSWORD=jivan"
+        ports:
+            - "3301:3306"

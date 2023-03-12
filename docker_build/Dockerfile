@@ -58,20 +58,29 @@ RUN curl -sS https://getcomposer.org/installer | \
 # Set permissions on the application code
 RUN chown -R www-data:www-data /var/www/html
 
-
 # Adding virtual host file
 #ADD config/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 #COPY config/000-default.conf /etc/apache2/sites-available/000-default.conf
 
-ADD config/000-default.conf /etc/apache2/sites-enabled/000-default.conf
-COPY config/php.ini /usr/local/etc/php/conf.d/custom.ini
+
+# Copy virtual host configuration
+COPY config/000-default.conf /etc/apache2/sites-available/000-default.conf
+
+# Enable virtual host
+#RUN ln -s /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 
 # Adding custom php configuration file
-ADD config/php.ini /usr/local/etc/php/conf.d/custom.ini
+#ADD config/php.ini /usr/local/etc/php/conf.d/custom.ini
+COPY config/php.ini /usr/local/etc/php/conf.d/custom.ini
+
 
 # Set working directory
 WORKDIR /var/www/html
 
 # Copy the rest of the application code
 COPY . /var/www/html
+
+
+# Start Apache
+CMD ["apache2-foreground"]
